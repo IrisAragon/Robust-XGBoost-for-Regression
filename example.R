@@ -9,7 +9,7 @@ p <- 10
 
 # Define the function g for generating the response variable
 g <- function(x) {
-  5 * sqrt(x[,1]^2 + (x[,2]*x[,3] - 1/(x[,2]*x[,4]))^2)
+  rowSums(x[, 1:5])
 }
 
 # Simulate predictor and response data
