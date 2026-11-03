@@ -1,4 +1,5 @@
 # Robust-XGBoost-for-Regression
-Robust loss functions implementation in XGBoost
-Loss functions from robust regression estimators
-With an example
+Robust loss functions implementation in XGBoost.
+Loss functions from robust regression estimators.
+With an example.
+And another example.
