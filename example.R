@@ -36,16 +36,16 @@ mxg.model <- xgb.train(data = dtrain, objective = m_loss_huber(scale = scale.mad
 mxg.predictions <- predict(mxg.model, X_test, base_margin = initial_median_test)
 
 # S-XGBoost
-sxg.model <- xgb.train(data = dtrain, objective = s_loss_tukey(c = 1.465, delta = 0.5), params = pars, nrounds = 100)
+sxg.model <- xgb.train(data = dtrain, objective = s_loss_tukey(c = 1.548, delta = 0.5), params = pars, nrounds = 100)
 sxg.predictions <- predict(sxg.model, X_test, base_margin = initial_median_test)
 
 # Tau^2-XGBoost
-tauxg.model <- xgb.train(data = dtrain, objective = tau_loss_tukey(c.tuk = 1.465, c.m.tuk = 4.685, delta = 0.5, kappa.tuk = 0.2), params = pars, nrounds = 100)
+tauxg.model <- xgb.train(data = dtrain, objective = tau_loss_tukey(c.tuk = 1.548, c.m.tuk = 4.685, delta = 0.5, kappa.tuk = 0.2), params = pars, nrounds = 100)
 tauxg.predictions <- predict(tauxg.model, X_test, base_margin = initial_median_test)
 
 # MM-XGBoost: two-stage robust procedure
 # First stage: fit a robust S-XGBoost model
-sxg.stage1 <- xgb.train(data = dtrain, objective = s_loss_tukey(c = 1.465, delta = 0.5), params = pars, nrounds = 50)
+sxg.stage1 <- xgb.train(data = dtrain, objective = s_loss_tukey(c = 1.548, delta = 0.5), params = pars, nrounds = 50)
 pred_train <- predict(sxg.stage1, X_train, base_margin = initial_median_train)
 res <- y_train - pred_train
 
