@@ -7,16 +7,21 @@ n_train <- 100
 n_test <- 100
 p <- 10
 
+# Define the function g for generating the response variable
+g <- function(x) {
+  5 * sqrt(x[,1]^2 + (x[,2]*x[,3] - 1/(x[,2]*x[,4]))^2)
+}
+
 # Simulate predictor and response data
 X_train <- matrix(rnorm(n_train*p), nrow = n_train, ncol = p)
 X_test <- matrix(rnorm(n_test*p), nrow = n_test, ncol = p)
-y_train <- rnorm(n_train)
-y_test <- rnorm(n_test)
+y_train <- g(X_train) + rnorm(n_train)
+y_test <- g(X_test) + rnorm(n_test)
 
 # Create XGBoost matrices for training and testing
 # `label` stores the target values for regression
- dtrain <- xgb.DMatrix(X_train, label = y_train)
- dtest <- xgb.DMatrix(X_test, label = y_test)
+dtrain <- xgb.DMatrix(X_train, label = y_train)
+dtest <- xgb.DMatrix(X_test, label = y_test)
 
 # Set a common initial prediction equal to the median response for all observations
 initial_median_train <- rep(median(y_train), length(y_train))
@@ -59,5 +64,5 @@ rmse_tauxg <- sqrt(mean((y_test - tauxg.predictions)^2))
 rmse_mmxg <- sqrt(mean((y_test - mm.predictions)^2))
 
 # Summarize the results in a comparison table
- table_rmse <- data.frame(Method = c("M-XGBoost", "S-XGBoost", "Tau^2-XGBoost", "MM-XGBoost"),
-                          RMSE = c(rmse_mxg, rmse_sxg, rmse_tauxg, rmse_mmxg))
+table_rmse <- data.frame(Method = c("M-XGBoost", "S-XGBoost", "Tau^2-XGBoost", "MM-XGBoost"),
+                         RMSE = c(rmse_mxg, rmse_sxg, rmse_tauxg, rmse_mmxg))
